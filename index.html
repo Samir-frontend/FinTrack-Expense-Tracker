@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes"/>
+    <title>FinTrack - Expense Tracker</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+    <!-- ========== HEADER / NAVBAR ========== -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <i class="fas fa-wallet"></i>
+                <span>FinTrack</span>
+            </div>
+
+            <div class="nav-links" id="navLinks">
+                <a href="#" class="active">Dashboard</a>
+                <a href="#transactions">Transactions</a>
+                <a href="#reports">Reports</a>
+                <a href="#analysis">Analysis</a>
+                <a href="#about">About</a>
+            </div>
+
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="btn btn-outline" id="loginBtn">Log In</button>
+                <button class="btn btn-primary" id="signupBtn">Sign Up</button>
+                <button class="btn btn-outline" id="logoutBtn" style="display:none;">Log Out</button>
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="#" class="active">Dashboard</a>
+            <a href="#transactions">Transactions</a>
+            <a href="#reports">Reports</a>
+            <a href="#analysis">Analysis</a>
+            <a href="#about">About</a>
+            <div class="mobile-actions">
+                <button class="btn btn-outline" id="loginBtnMobile">Log In</button>
+                <button class="btn btn-primary" id="signupBtnMobile">Sign Up</button>
+                <button class="btn btn-outline" id="logoutBtnMobile" style="display:none;">Log Out</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ========== HERO / BALANCE SECTION ========== -->
+    <section class="hero">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <span class="hero-badge">Financial Dashboard</span>
+                <h1>Track Your <span>Finances</span> Smartly</h1>
+                <p>Manage your income and expenses with ease. Get insights into your spending habits.</p>
+            </div>
+            <div class="balance-cards">
+                <div class="balance-card total">
+                    <div class="card-icon"><i class="fas fa-wallet"></i></div>
+                    <div class="card-info">
+                        <span class="card-label">Total Balance</span>
+                        <span class="card-value" id="totalBalance">$0.00</span>
+                    </div>
+                </div>
+                <div class="balance-card income">
+                    <div class="card-icon"><i class="fas fa-arrow-up"></i></div>
+                    <div class="card-info">
+                        <span class="card-label">Total Income</span>
+                        <span class="card-value" id="totalIncome">$0.00</span>
+                    </div>
+                </div>
+                <div class="balance-card expense">
+                    <div class="card-icon"><i class="fas fa-arrow-down"></i></div>
+                    <div class="card-info">
+                        <span class="card-label">Total Expenses</span>
+                        <span class="card-value" id="totalExpense">$0.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== QUICK ADD SECTION ========== -->
+    <section class="quick-add">
+        <div class="container">
+            <div class="add-card">
+                <h3>Add Transaction</h3>
+                <div class="add-form">
+                    <div class="form-group">
+                        <input type="text" id="transactionDesc" placeholder="Description (e.g. Grocery)" />
+                    </div>
+                    <div class="form-group">
+                        <input type="number" id="transactionAmount" placeholder="Amount ($)" step="0.01" />
+                    </div>
+                    <div class="form-group">
+                        <select id="transactionType">
+                            <option value="income">Income</option>
+                            <option value="expense">Expense</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="month" id="transactionMonth" />
+                    </div>
+                    <button class="btn btn-primary" id="addTransactionBtn">
+                        <i class="fas fa-plus"></i> Add Transaction
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== TRANSACTIONS SECTION ========== -->
+    <section class="transactions" id="transactions">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">History</span>
+                <h2>Transaction <span>History</span></h2>
+            </div>
+
+            <div class="transaction-controls">
+                <div class="filter-group">
+                    <label>Filter by Month:</label>
+                    <input type="month" id="filterMonth" />
+                </div>
+                <div class="filter-group">
+                    <label>Filter by Type:</label>
+                    <select id="filterType">
+                        <option value="all">All</option>
+                        <option value="income">Income</option>
+                        <option value="expense">Expense</option>
+                    </select>
+                </div>
+                <button class="btn btn-outline" id="clearFilterBtn"><i class="fas fa-times"></i> Clear</button>
+            </div>
+
+            <div class="transaction-list" id="transactionList">
+                <!-- Rendered by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CHARTS SECTION ========== -->
+    <section class="charts" id="reports">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Reports</span>
+                <h2>Income vs <span>Expense</span> Chart</h2>
+            </div>
+            <div class="chart-container">
+                <canvas id="financeChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== ANALYSIS SECTION ========== -->
+    <section class="analysis" id="analysis">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Analysis</span>
+                <h2>Monthly <span>Analysis</span></h2>
+            </div>
+            <div class="analysis-grid" id="analysisGrid">
+                <!-- Rendered by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== ABOUT US SECTION ========== -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">About Us</span>
+                <h2>About <span>FinTrack</span></h2>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>
+                        FinTrack is a powerful financial management tool designed to help you 
+                        track your income and expenses effortlessly. Our mission is to empower 
+                        individuals to take control of their financial future through smart 
+                        tracking and insightful analytics.
+                    </p>
+                    <p>
+                        Whether you are managing personal finances or running a small business, 
+                        FinTrack provides you with the tools you need to stay on top of your 
+                        money. With features like expense tracking, income management, 
+                        interactive charts, and monthly analysis, you can make informed 
+                        financial decisions with confidence.
+                    </p>
+                    <div class="about-features">
+                        <div class="about-feature">
+                            <i class="fas fa-shield-alt"></i>
+                            <div>
+                                <h4>Secure & Private</h4>
+                                <p>Your data stays on your device. We don't store your financial information.</p>
+                            </div>
+                        </div>
+                        <div class="about-feature">
+                            <i class="fas fa-chart-line"></i>
+                            <div>
+                                <h4>Smart Insights</h4>
+                                <p>Visual charts and monthly analysis to understand your spending patterns.</p>
+                            </div>
+                        </div>
+                        <div class="about-feature">
+                            <i class="fas fa-mobile-alt"></i>
+                            <div>
+                                <h4>Works Everywhere</h4>
+                                <p>Fully responsive design that works on desktop, tablet, and mobile.</p>
+                            </div>
+                        </div>
+                        <div class="about-feature">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <h4>Real-Time Tracking</h4>
+                                <p>Add transactions instantly and see your balance update in real-time.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop" alt="Financial Planning" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-column">
+                <div class="logo">
+                    <i class="fas fa-wallet"></i>
+                    <span>FinTrack</span>
+                </div>
+                <p>Smart financial tracking for your daily life. Take control of your money.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">Dashboard</a></li>
+                    <li><a href="#transactions">Transactions</a></li>
+                    <li><a href="#reports">Reports</a></li>
+                    <li><a href="#analysis">Analysis</a></li>
+                    <li><a href="#about">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Refund Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Newsletter</h4>
+                <p>Get financial tips and updates.</p>
+                <div class="newsletter">
+                    <input type="email" placeholder="Your email" id="newsletterEmail" />
+                    <button class="btn btn-primary" id="newsletterBtn">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 FinTrack. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- ========== MODALS ========== -->
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="modal-close" id="loginClose">&times;</span>
+            <h2>Welcome Back</h2>
+            <p>Login to your financial dashboard</p>
+            <form id="loginForm">
+                <input type="email" placeholder="Email" required />
+                <input type="password" placeholder="Password" required />
+                <button type="submit" class="btn btn-primary btn-full">Log In</button>
+            </form>
+            <p class="modal-footer-text">Don't have an account? <a href="#" id="switchToSignup">Sign Up</a></p>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal" id="signupModal">
+        <div class="modal-content">
+            <span class="modal-close" id="signupClose">&times;</span>
+            <h2>Create Account</h2>
+            <p>Start tracking your finances today</p>
+            <form id="signupForm">
+                <input type="text" placeholder="Full Name" required />
+                <input type="email" placeholder="Email" required />
+                <input type="password" placeholder="Password" required />
+                <button type="submit" class="btn btn-primary btn-full">Sign Up</button>
+            </form>
+            <p class="modal-footer-text">Already have an account? <a href="#" id="switchToLogin">Log In</a></p>
+        </div>
+    </div>
+
+    <!-- Back to Top -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
